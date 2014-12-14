@@ -1,0 +1,6 @@
+*.json
+
+bin/
+lib/
+include/
+.Python
