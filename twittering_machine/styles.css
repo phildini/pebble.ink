@@ -1,17 +1,25 @@
 body {
     font-family: 'Open Sans', sans-serif;
-    background-color: slategray;
+    background-color: steelblue;
 }
 .container {
     background-color: aliceblue;
 }
 
 .link-block {
-    border-bottom: 1px solid slategray;
+    border-bottom: 1px solid steelblue;
     padding: 15px;
 }
 .link {
     margin: 0;
+    font-size: 18px;
+}
+.link > a {
+    color: black;
+}
+.link > a:visited {
+    color: grey;
+    text-decoration: none;
 }
 .tweet {
     margin: 5px 0 0 0;
