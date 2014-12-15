@@ -6,4 +6,4 @@ virtualenv .
 . bin/activate
 pip install -r requirements.txt
 python fetch_links.py
-cp index.html styles.css $TWEET_HTML_PATH
+cp styles.css $TWEET_HTML_PATH

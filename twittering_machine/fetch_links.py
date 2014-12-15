@@ -66,7 +66,8 @@ def render_link_page(link_objects):
         "title": "Hello",
         "links": link_objects,
     }
-    with open('index.html', 'w') as html:
+    index_html_path = "%s/index.html" % (get_env_variable('TWEET_HTML_PATH'))
+    with open(index_html_path, 'w') as html:
         html.write(template.render(template_vars).encode('utf-8'))
 
 if __name__ == "__main__":
