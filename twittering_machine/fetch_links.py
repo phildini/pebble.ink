@@ -39,8 +39,15 @@ def get_sorted_status_links():
             sorted_statuses = json.loads(json_data)
 
     link_objects_to_export = []
+    links = []
     for status in sorted_statuses:
+
         link = status['entities']['urls'][0]['expanded_url']
+        if link in links:
+            sorted_statuses.remove(status)
+            continue
+        else:
+            links.append(link)
         page = requests.get(link, verify=False)
         if page.status_code == 200:
             soup = BeautifulSoup(page.text)
@@ -55,7 +62,6 @@ def get_sorted_status_links():
                 'tweet_link': "https://www.twitter.com/%s/status/%s" % (status['user']['screen_name'], status['id_str']),
             }]
             link_objects_to_export += link_object
-
     return link_objects_to_export
 
 def render_link_page(link_objects):
