@@ -50,10 +50,11 @@ def get_sorted_status_links():
         page = requests.get(link, verify=False)
         soup = BeautifulSoup(page.text)
         link_title = soup.title.string
+        print status['text']
         link_object = [{
             'link': link,
             'link_text': link_title,
-            'tweet_text': unicode(status['text']),
+            'tweet_text': status['text'],
             'tweet_link': "https://www.twitter.com/%s/status/%s" % (status['user']['screen_name'], status['id_str']),
         }]
         link_objects_to_export += link_object
