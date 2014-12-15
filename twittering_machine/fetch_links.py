@@ -16,16 +16,13 @@ def get_env_variable(var_name):
         raise EnvironmentError(error_msg)
 
 def get_sorted_status_links():
-    print "Starting up"
     if not os.path.isfile("tweets.json"):
-        print "No stored tweets"
         auth = tweepy.OAuthHandler(get_env_variable('TWITTER_KEY'), get_env_variable('TWITTER_SECRET'))
         auth.set_access_token(get_env_variable('TWITTER_TOKEN'), get_env_variable('TWITTER_TOKEN_SECRET'))
 
         api = tweepy.API(auth)
         api.home_timeline()
-        print "Got tweets"
-        statuses = [status._json for status in api.home_timeline(count=50)]
+        statuses = [status._json for status in api.home_timeline(count=100)]
         statuses_with_links = [status for status in statuses if status['entities'] and status['entities']['urls']]
 
         for status in statuses_with_links:
@@ -37,27 +34,27 @@ def get_sorted_status_links():
             json.dump(sorted_statuses, tweets)
 
     else:
-        print "Loading tweets from file"
         with open('tweets.json') as tweets:
             json_data = tweets.read()
             sorted_statuses = json.loads(json_data)
 
-    print "Parsing tweets"
     link_objects_to_export = []
     for status in sorted_statuses:
         link = status['entities']['urls'][0]['expanded_url']
-        print "Checking %s" % (link,)
         page = requests.get(link, verify=False)
-        soup = BeautifulSoup(page.text)
-        link_title = soup.title.string
-        print status['text']
-        link_object = [{
-            'link': link,
-            'link_text': link_title,
-            'tweet_text': status['text'],
-            'tweet_link': "https://www.twitter.com/%s/status/%s" % (status['user']['screen_name'], status['id_str']),
-        }]
-        link_objects_to_export += link_object
+        if page.status_code == 200:
+            soup = BeautifulSoup(page.text)
+            try:
+                link_title = soup.title.string
+            except AttributeError:
+                link_title = link
+            link_object = [{
+                'link': link,
+                'link_text': link_title,
+                'tweet_text': status['text'],
+                'tweet_link': "https://www.twitter.com/%s/status/%s" % (status['user']['screen_name'], status['id_str']),
+            }]
+            link_objects_to_export += link_object
 
     return link_objects_to_export
 
@@ -69,7 +66,6 @@ def render_link_page(link_objects):
         "title": "Hello",
         "links": link_objects,
     }
-    print "Rendering"
     with open('index.html', 'w') as html:
         html.write(template.render(template_vars).encode('utf-8'))
 

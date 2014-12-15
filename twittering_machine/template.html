@@ -14,5 +14,10 @@
         </div>
         {% endfor %}
         </div>
+        {% if previous %}
+        <div class="link-block">
+            <a class="link" href="/{{ previous}}.html">{{ previous }}</a>
+        </div>
+        {% endif %}
     </body>
 </html>
