@@ -2,12 +2,10 @@ body {
     font-family: 'Open Sans', sans-serif;
     background-color: steelblue;
 }
-.container {
-    background-color: aliceblue;
-}
 
 .link-block {
-    border-bottom: 1px solid steelblue;
+    background-color: aliceblue;
+    margin-bottom: 1px;
     padding: 15px;
 }
 .link {
@@ -30,4 +28,19 @@ body {
 }
 .tweet > a:visited {
     color: grey;
+}
+.footer {
+    color: black;
+    text-align: center;
+}
+.footer a {
+    text-decoration: none;
+    color: aliceblue;
+    font-weight: bold;
+}
+.header-image {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    width: 50%;
 }

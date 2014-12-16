@@ -69,7 +69,6 @@ def render_link_page(link_objects):
     template_env = jinja2.Environment(loader=template_loader)
     template = template_env.get_template('template.html')
     template_vars = {
-        "title": "Hello",
         "links": link_objects,
     }
     index_html_path = "%s/index.html" % (get_env_variable('TWEET_HTML_PATH'))
